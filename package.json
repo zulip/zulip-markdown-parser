@@ -1,8 +1,8 @@
 {
   "name": "zulip-markdown-parser",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Converts zulip markdown to html",
-  "main": "index.js",
+  "main": "parseMarkdown.js",
   "scripts": {
     "test": "jest preview"
   },
