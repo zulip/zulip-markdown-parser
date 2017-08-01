@@ -252,7 +252,7 @@ exports.set_realm_filters = function (realm_filters) {
     marked.InlineLexer.rules.zulip.realm_filters = marked_rules;
 };
 
-exports.initialize = function (people, stream_data, realm, realm_users, realm_filters, realm_emoji,) {
+exports.initialize = function (people, stream_data, realm, realm_filters, realm_emoji,) {
     function disable_markdown_regex(rules, name) {
         rules[name] = {exec: function () {
                 return false;

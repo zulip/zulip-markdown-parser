@@ -210,7 +210,6 @@ describe("Preview test messages", () => {
         users,
         streams,
         auth,
-        realm_users,
         realm_filters,
         realm_emoji
       );
