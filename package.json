@@ -1,6 +1,6 @@
 {
   "name": "zulip-markdown-parser",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Converts zulip markdown to html",
   "main": "parseMarkdown.js",
   "scripts": {
@@ -10,17 +10,24 @@
     "type": "git",
     "url": "https://github.com/zulip/zulip-mobile/tree/zulip-markdown-parser"
   },
-  "keywords": ["parser", "markdown", "html"],
+  "keywords": [
+    "parser",
+    "markdown",
+    "html"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "jest": "^20.0.4"
   },
   "dependencies": {
+    "jest-cli": "^20.0.4",
+    "katex": "^0.7.1",
     "lodash.contains": "^2.4.3",
     "lodash.find": "^4.6.0",
     "lodash.foreach": "^4.5.0",
     "lodash.map": "^4.6.0",
-    "lodash.reject": "^4.6.0"
+    "lodash.reject": "^4.6.0",
+    "lodash.unescape": "^4.0.1"
   }
 }

@@ -16,6 +16,7 @@ const hash_util = require('./hash_util');
 const fenced_code = require('./fenced_code');
 const emoji = require('./emoji');
 var emoji_codes = require('./emoji_codes');
+const katex = require('katex');
 
 var markdown = (function () {
 
@@ -53,9 +54,9 @@ function push_uniquely(lst, elem) {
 }
 
 exports.apply_markdown = function (message) {
-    if (message.flags === undefined) {
-        message.flags = [];
-    }
+    // if (message.flags === undefined) {
+    //     message.flags = [];
+    // }
     return marked(message + '\n\n').trim();
 };
 
@@ -190,7 +191,7 @@ function handleTex(tex, fullmatch) {
     try {
         return katex.renderToString(tex);
     } catch (ex) {
-        if (ex.message.startsWith('KaTeX parse error')) { // TeX syntax error
+        if (ex.message.startsWith('ParseError: KaTeX parse error')) { // TeX syntax error
             return '<span class="tex-error">' + escape(fullmatch) + '</span>';
         }
         blueslip.error(ex);

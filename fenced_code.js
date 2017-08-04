@@ -8,6 +8,7 @@ var map = require('lodash.map');
 var reject = require('lodash.reject');
 var util = require('./util');
 var fenced_code = (function () {
+var katex = require('katex');
 
 var exports = {};
 
