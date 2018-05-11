@@ -87,25 +87,6 @@ exports.testCases = [
     expected: "<p>And this is a #**wrong** stream link</p>"
   },
   {
-    input: "mmm...:burrito:s",
-    expected:
-      '<p>mmm...<img alt=":burrito:" class="emoji" src="/static/generated/emoji/images/emoji/unicode/1f32f.png" title="burrito">s</p>'
-  },
-  {
-    input: "This is an :poop: message",
-    expected:
-      '<p>This is an <img alt=":poop:" class="emoji" src="/static/generated/emoji/images/emoji/unicode/1f4a9.png" title="poop"> message</p>'
-  },
-  {
-    input: "\ud83d\udca9",
-    expected:
-      '<p><img alt=":poop:" class="emoji" src="/static/generated/emoji/images/emoji/unicode/1f4a9.png" title="poop"></p>'
-  },
-  {
-    input: "\u{1f937}",
-    expected: "<p>\u{1f937}</p>"
-  },
-  {
     input: "This is a realm filter #1234 with text after it",
     expected:
       '<p>This is a realm filter <a href="https://trac.zulip.net/ticket/1234" target="_blank" title="https://trac.zulip.net/ticket/1234">#1234</a> with text after it</p>'
@@ -245,7 +226,8 @@ exports.testCases = [
     {
       "name": "ulist_hanging_mixed",
       "input": "Plain list\n\n* Alpha\n\n* Beta\n\nThen hang it off:\n* Ypsilon\n* Zeta",
-      "expected_output": `<p>Plain list</p>\n<ul>\n<li>\n<p>Alpha</p>\n</li>\n<li>\n<p>Beta</p>\n</li>\n</ul>\n<p>Then hang it off:</p>\n<ul>\n<li>Ypsilon</li>\n<li>Zeta</li>\n</ul>`,
+      "expected_output": "<p>Plain list</p>\n<ul>\n<li>\n<p>Alpha</p>\n</li>\n<li>\n<p>Beta</p>\n</li>\n</ul>\n<p>Then hang it off:</p>\n<ul>\n<li>Ypsilon</li>\n<li>Zeta</li>\n</ul>",
+      "marked_expected_output": "<p>Plain list</p>\n<ul>\n<li><p>Alpha</p>\n</li>\n<li><p>Beta</p>\n</li>\n</ul>\n<p>Then hang it off:</p>\n<ul>\n<li>Ypsilon</li>\n<li>Zeta</li>\n</ul>",
       "bugdown_matches_marked": false
     },
     {
@@ -383,110 +365,109 @@ exports.testCases = [
     {
       "name": "multiline_strong",
       "input": "You can check out **any time you'd like\nBut you can never leave**",
-      "expected_output": `<p>You can check out **any time you'd like<br>\nBut you can never leave**</p>`,
+      "expected_output": "<p>You can check out **any time you'd like<br>\nBut you can never leave**</p>",
+      "marked_expected_output": "<p>You can check out <strong>any time you&#39;d like<br>\nBut you can never leave</strong></p>",
       "bugdown_matches_marked": false
     },
-    {
+  {
       "name": "many_emoji",
-      "input":  "test :smile: again :poop:\n:) foo:)bar x::y::z :wasted waste: :fakeemojithisshouldnotrender:",
-      "expected_output": `<p>test <img alt=\":smile:\" class=\"emoji\" src=\"/static/generated/emoji/images/emoji/unicode/1f604.png\" title=\"smile\"> again <img alt=\":poop:\" class=\"emoji\" src=\"/static/generated/emoji/images/emoji/unicode/1f4a9.png\" title=\"poop\"><br>\n:) foo:)bar x::y::z :wasted waste: :fakeemojithisshouldnotrender:</p>`,
-      "bugdown_matches_marked": true
+      "input":  "test :smile: again :poop:\n foobar x::y::z :wasted waste: :fakeemojithisshouldnotrender:",
+      "expected_output": "<p>test <span class=\"emoji emoji-1f604\" title=\"smile\">:smile:</span> again <span class=\"emoji emoji-1f4a9\" title=\"poop\">:poop:</span><br>\n foobar x::y::z :wasted waste: :fakeemojithisshouldnotrender:</p>",
+      "text_content": "test \ud83d\ude04 again \ud83d\udca9\n foobar x::y::z :wasted waste: :fakeemojithisshouldnotrender:"
     },
     {
       "name": "random_emoji_1",
       "input": ":airplane:",
-      "expected_output": `<p><img alt=\":airplane:\" class=\"emoji\" src=\"/static/generated/emoji/images/emoji/unicode/2708.png\" title=\"airplane\"></p>`,
-      "bugdown_matches_marked": true
+      "expected_output": "<p><span class=\"emoji emoji-2708\" title=\"airplane\">:airplane:</span></p>"
     },
     {
       "name": "zulip_emoji",
       "input": ":zulip:",
-      "expected_output": `<p><img alt=\":zulip:\" class=\"emoji\" src=\"/static/generated/emoji/images/emoji/unicode/zulip.png\" title=\"zulip\"></p>`,
-      "bugdown_matches_marked": true
+      "expected_output": "<p><img alt=\":zulip:\" class=\"emoji\" src=\"/static/generated/emoji/images/emoji/unicode/zulip.png\" title=\"zulip\"></p>",
+      "text_content": ":zulip:"
     },
     {
       "name": "random_emoji_2",
       "input": ":poop:",
-      "expected_output": `<p><img alt=\":poop:\" class=\"emoji\" src=\"/static/generated/emoji/images/emoji/unicode/1f4a9.png\" title=\"poop\"></p>`,
-      "bugdown_matches_marked": true
+      "expected_output": "<p><span class=\"emoji emoji-1f4a9\" title=\"poop\">:poop:</span></p>"
     },
     {
       "name": "emojis_without_space",
       "input": ":cat:hello:dog::rabbit:",
-      "expected_output": `<p><img alt=\":cat:\" class=\"emoji\" src=\"/static/generated/emoji/images/emoji/unicode/1f408.png\" title=\"cat\">hello<img alt=\":dog:\" class=\"emoji\" src=\"/static/generated/emoji/images/emoji/unicode/1f415.png\" title=\"dog\"><img alt=\":rabbit:\" class=\"emoji\" src=\"/static/generated/emoji/images/emoji/unicode/1f407.png\" title=\"rabbit\"></p>`,
-      "bugdown_matches_marked": true
+      "expected_output": "<p><span class=\"emoji emoji-1f431\" title=\"cat\">:cat:</span>hello<span class=\"emoji emoji-1f436\" title=\"dog\">:dog:</span><span class=\"emoji emoji-1f430\" title=\"rabbit\">:rabbit:</span></p>",
+      "text_content": "\ud83d\udc31hello\ud83d\udc36\ud83d\udc30"
     },
     {
       "name": "emojis_newline",
       "input": ":cat:\n:dog:",
-      "expected_output": `<p><img alt=\":cat:\" class=\"emoji\" src=\"/static/generated/emoji/images/emoji/unicode/1f408.png\" title=\"cat\"><br>\n<img alt=\":dog:\" class=\"emoji\" src=\"/static/generated/emoji/images/emoji/unicode/1f415.png\" title=\"dog\"></p>`,
-      "bugdown_matches_marked": true
+      "expected_output": "<p><span class=\"emoji emoji-1f431\" title=\"cat\">:cat:</span><br>\n<span class=\"emoji emoji-1f436\" title=\"dog\">:dog:</span></p>",
+      "text_content": "\ud83d\udc31\n\ud83d\udc36"
     },
     {
       "name": "not_emoji",
       "input": ":not_an_emoji:",
-      "expected_output": `<p>:not_an_emoji:</p>`,
-      "bugdown_matches_marked": true
+      "expected_output": "<p>:not_an_emoji:</p>",
+      "text_content": ":not_an_emoji:"
     },
     {
       "name": "unicode_emoji",
       "input": "\ud83d\udca9",
-      "expected_output":"<p><img alt=\":poop:\" class=\"emoji\" src=\"\/static\/generated\/emoji\/images\/emoji\/unicode\/1f4a9.png\" title=\"poop\"><\/p>",
-      "bugdown_matches_marked": true
+      "expected_output":"<p><span class=\"emoji emoji-1f4a9\" title=\"poop\">:poop:</span></p>",
+      "text_content": "\ud83d\udca9"
     },
     {
       "name": "two_unicode_emoji",
       "input": "\ud83d\udca9\ud83d\udca9",
-      "expected_output":"<p><img alt=\":poop:\" class=\"emoji\" src=\"\/static\/generated\/emoji\/images\/emoji\/unicode\/1f4a9.png\" title=\"poop\"><img alt=\":poop:\" class=\"emoji\" src=\"\/static\/generated\/emoji\/images\/emoji\/unicode\/1f4a9.png\" title=\"poop\"><\/p>",
-      "bugdown_matches_marked": true
+      "expected_output":"<p><span class=\"emoji emoji-1f4a9\" title=\"poop\">:poop:</span><span class=\"emoji emoji-1f4a9\" title=\"poop\">:poop:</span><\/p>",
+      "text_content": "\ud83d\udca9\ud83d\udca9"
     },
     {
       "name": "two_unicode_emoji_separated_by_text",
       "input": "\ud83d\udca9 word \ud83d\udca9",
-      "expected_output":"<p><img alt=\":poop:\" class=\"emoji\" src=\"\/static\/generated\/emoji\/images\/emoji\/unicode\/1f4a9.png\" title=\"poop\"> word <img alt=\":poop:\" class=\"emoji\" src=\"\/static\/generated\/emoji\/images\/emoji\/unicode\/1f4a9.png\" title=\"poop\"><\/p>",
-      "bugdown_matches_marked": true
+      "expected_output":"<p><span class=\"emoji emoji-1f4a9\" title=\"poop\">:poop:</span> word <span class=\"emoji emoji-1f4a9\" title=\"poop\">:poop:</span><\/p>",
+      "text_content": "\ud83d\udca9 word \ud83d\udca9"
     },
     {
       "name": "miscellaneous_symbols_and_pictographs",
       "input": "Merry Christmas!!\ud83c\udf84",
-      "expected_output":"<p>Merry Christmas!!<img alt=\":christmas_tree:\" class=\"emoji\" src=\"\/static\/generated\/emoji\/images\/emoji\/unicode\/1f384.png\" title=\"christmas tree\"><\/p>",
-      "bugdown_matches_marked": true
+      "expected_output":"<p>Merry Christmas!!<span class=\"emoji emoji-1f384\" title=\"christmas tree\">:christmas_tree:</span><\/p>",
+      "text_content": "Merry Christmas!!\ud83c\udf84"
     },
     {
       "name": "miscellaneous_and_dingbats_emoji",
       "input": "\u2693\u2797",
-      "expected_output":"<p><img alt=\":anchor:\" class=\"emoji\" src=\"\/static\/generated\/emoji\/images\/emoji\/unicode\/2693.png\" title=\"anchor\"><img alt=\":heavy_division_sign:\" class=\"emoji\" src=\"\/static\/generated\/emoji\/images\/emoji\/unicode\/2797.png\" title=\"heavy division sign\"><\/p>",
-      "bugdown_matches_marked": true
+      "expected_output":"<p><span class=\"emoji emoji-2693\" title=\"anchor\">:anchor:</span><span class=\"emoji emoji-2797\" title=\"heavy division sign\">:heavy_division_sign:</span><\/p>"
     },
     {
       "name": "supplemental_symbols_and_pictographs",
       "input": "I am a robot \ud83e\udd16.",
-      "expected_output":"<p>I am a robot <img alt=\":robot_face:\" class=\"emoji\" src=\"\/static\/generated\/emoji\/images\/emoji\/unicode\/1f916.png\" title=\"robot face\">.<\/p>",
-      "bugdown_matches_marked": true
+      "expected_output":"<p>I am a robot <span class=\"emoji emoji-1f916\" title=\"robot face\">:robot_face:</span>.<\/p>"
     },
     {
       "name": "miscellaneous_symbols_and_arrows",
       "input": "Black upward arrow \u2b06",
-      "expected_output":"<p>Black upward arrow <img alt=\":arrow_up:\" class=\"emoji\" src=\"\/static\/generated\/emoji\/images\/emoji\/unicode\/2b06.png\" title=\"arrow up\"><\/p>",
-      "bugdown_matches_marked": true
+      "expected_output":"<p>Black upward arrow <span class=\"emoji emoji-2b06\" title=\"arrow up\">:arrow_up:</span><\/p>"
     },
     {
       "name": "unicode_emoji_without_space",
       "input": "Extra\ud83d\udc7dTerrestrial",
-      "expected_output":"<p>Extra<img alt=\":alien:\" class=\"emoji\" src=\"\/static\/generated\/emoji\/images\/emoji\/unicode\/1f47d.png\" title=\"alien\">Terrestrial<\/p>",
-      "bugdown_matches_marked": true
+      "expected_output":"<p>Extra<span class=\"emoji emoji-1f47d\" title=\"alien\">:alien:</span>Terrestrial<\/p>"
     },
     {
       "name": "unicode_emojis_new_line",
       "input": "\ud83d\udc7d\n\ud83d\udc7d",
-      "expected_output":"<p><img alt=\":alien:\" class=\"emoji\" src=\"\/static\/generated\/emoji\/images\/emoji\/unicode\/1f47d.png\" title=\"alien\"><br>\n<img alt=\":alien:\" class=\"emoji\" src=\"\/static\/generated\/emoji\/images\/emoji\/unicode\/1f47d.png\" title=\"alien\"><\/p>",
-      "bugdown_matches_marked": true
+      "expected_output":"<p><span class=\"emoji emoji-1f47d\" title=\"alien\">:alien:</span><br>\n<span class=\"emoji emoji-1f47d\" title=\"alien\">:alien:</span></p>",
+      "text_content": "\ud83d\udc7d\n\ud83d\udc7d"
     },
     {
       "name": "emoji_alongside_punctuation",
       "input": ":smile:, :smile:; :smile:",
-      "expected_output": `<p><img alt=\":smile:\" class=\"emoji\" src=\"/static/generated/emoji/images/emoji/unicode/1f604.png\" title=\"smile\">, <img alt=\":smile:\" class=\"emoji\" src=\"/static/generated/emoji/images/emoji/unicode/1f604.png\" title=\"smile\">; <img alt=\":smile:\" class=\"emoji\" src=\"/static/generated/emoji/images/emoji/unicode/1f604.png\" title=\"smile\"></p>`,
-      "bugdown_matches_marked": true
+      "expected_output": "<p><span class=\"emoji emoji-1f604\" title=\"smile\">:smile:</span>, <span class=\"emoji emoji-1f604\" title=\"smile\">:smile:</span>; <span class=\"emoji emoji-1f604\" title=\"smile\">:smile:</span></p>"
+    },
+    {
+      "name": "new_emoji_test",
+      "input": ":avocado:, :kiwifruit:, :selfie:, :gear:, :comet:, :first_place_medal:",
+      "expected_output": "<p><span class=\"emoji emoji-1f951\" title=\"avocado\">:avocado:</span>, <span class=\"emoji emoji-1f95d\" title=\"kiwifruit\">:kiwifruit:</span>, <span class=\"emoji emoji-1f933\" title=\"selfie\">:selfie:</span>, <span class=\"emoji emoji-2699\" title=\"gear\">:gear:</span>, <span class=\"emoji emoji-2604\" title=\"comet\">:comet:</span>, <span class=\"emoji emoji-1f947\" title=\"first place medal\">:first_place_medal:</span></p>"
     },
     {
       "name": "safe_html",
@@ -497,8 +478,9 @@ exports.testCases = [
     {
       "name": "safe_html_with_simple_script_tag",
       "input": "<script>alert(1)</script>",
-      "expected_output": `<p>&lt;script&gt;alert(1)&lt;/script&gt;</p>`,
-      "bugdown_matches_marked": false
+      "expected_output": "<p>&lt;script&gt;alert(1)&lt;/script&gt;</p>",
+      "marked_expected_output": "<p>&lt;script&gt;alert(1)&lt;/script&gt;\n\n</p>",
+     "bugdown_matches_marked": false
     },
     {
       "name": "safe_html_nested_script_tag",
@@ -543,24 +525,6 @@ exports.testCases = [
       "bugdown_matches_marked": true
     },
     {
-      "name": "modal_link",
-      "input": "!modal_link(#settings, Settings page)",
-      "expected_output": `<p><a href=\"#settings\" title=\"#settings\">Settings page</a></p>`,
-      "bugdown_matches_marked": false
-    },
-    {
-      "name": "modal_link_escaped",
-      "input": "`!modal_link(#settings, Settings page)`",
-      "expected_output": `<p><code>!modal_link(#settings, Settings page)</code></p>`,
-      "bugdown_matches_marked": true
-    },
-    {
-      "name": "avatar",
-      "input": "!avatar(username@example.com)",
-      "expected_output": `<p><img alt=\"username@example.com\" class=\"message_body_gravatar\" src=\"/avatar/username@example.com?s=30\" title=\"username@example.com\"></p>`,
-      "bugdown_matches_marked": true
-    },
-    {
       "name": "gravatar",
       "input": "!gravatar(username@example.com)",
       "expected_output": `<p><img alt=\"username@example.com\" class=\"message_body_gravatar\" src=\"/avatar/username@example.com?s=30\" title=\"username@example.com\"></p>`,
@@ -576,18 +540,6 @@ exports.testCases = [
       "name": "gravatar_escaped",
       "input": "`!gravatar(username@example.com)`",
       "expected_output": `<p><code>!gravatar(username@example.com)</code></p>`,
-      "bugdown_matches_marked": true
-    },
-    {
-      "name": "stream_subscribe_button",
-      "input": "!_stream_subscribe_button(streamname)",
-      "expected_output": `<p><span class=\"inline-subscribe\" data-stream-name=\"streamname\"><button class=\"inline-subscribe-button btn\">Subscribe to streamname</button><span class=\"inline-subscribe-error\"></span></span></p>`,
-      "bugdown_matches_marked": false
-    },
-    {
-      "name": "stream_subscribe_button_escaped",
-      "input": "`!_stream_subscribe_button(streamname)`",
-      "expected_output": `<p><code>!_stream_subscribe_button(streamname)</code></p>`,
       "bugdown_matches_marked": true
     },
   ];
