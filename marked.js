@@ -519,7 +519,7 @@ inline.zulip = merge({}, inline.breaks, {
                        '\ud83d[\ude80-\udeff]|\ud83e[\udd00-\uddff]|' +
                        '[\u2000-\u206F]|[\u2300-\u27BF]|[\u2B00-\u2BFF]|' +
                        '[\u3000-\u303F]|[\u3200-\u32FF])'),
-  usermention: /^(@(?:\*\*([^\*]+)\*\*|(\w+)))/, // Match multi-word string between @** ** or match any one-word
+  usermention: /^(@(_?)(?:\*\*([^\*]+)\*\*|(\w+)))/, // Match multi-word string between @** ** or match any one-word
   stream: /^#\*\*([^\*]+)\*\*/,
   avatar: /^!avatar\(([^)]+)\)/,
   gravatar: /^!gravatar\(([^)]+)\)/,
@@ -709,7 +709,7 @@ InlineLexer.prototype.output = function(src) {
     // usermention (zulip)
     if (cap = this.rules.usermention.exec(src)) {
       src = src.substring(cap[0].length);
-      out += this.usermention(cap[2] || cap[3], cap[1]);
+      out += this.usermention(cap[3] || cap[4], cap[1], cap[2]);
       continue;
     }
 
@@ -856,13 +856,13 @@ InlineLexer.prototype.realm_filter = function (filter, matches, orig) {
   return this.options.realmFilterHandler(filter, matches);
 };
 
-InlineLexer.prototype.usermention = function (username, orig) {
+InlineLexer.prototype.usermention = function (username, orig, silent) {
   if (typeof this.options.userMentionHandler !== 'function')
   {
     return orig;
   }
 
-  var handled = this.options.userMentionHandler(username);
+  var handled = this.options.userMentionHandler(username, silent === '_');
   if (handled !== undefined) {
     return handled;
   }
