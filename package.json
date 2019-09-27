@@ -21,7 +21,6 @@
     "jest": "^20.0.4"
   },
   "dependencies": {
-    "jest-cli": "^20.0.4",
     "katex": "^0.7.1",
     "lodash.contains": "^2.4.3",
     "lodash.find": "^4.6.0",
