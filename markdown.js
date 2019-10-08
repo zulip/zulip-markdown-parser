@@ -155,18 +155,19 @@ function handleStream(streamName) {
 
 }
 
-function handleUser(name) {
+function handleUser(name, silently) {
     var person = this.people.get_by_name(name);
+    const silent = silently ? ' silent' : '';
     if (person !== undefined) {
         if (this.people.is_my_user_id(person.user_id)) {
             push_uniquely(message.flags, 'mentioned');
         }
-        return '<span class="user-mention" data-user-id="' + person.user_id + '">' +
+        return '<span class="user-mention' + silent + '" data-user-id="' + person.user_id + '">' +
                '@' + person.full_name +
                '</span>';
     } else if (name === 'all' || name === 'everyone') {
         push_uniquely(message.flags, 'mentioned');
-        return '<span class="user-mention" data-user-id="*">' +
+        return '<span class="user-mention' + silent + '" data-user-id="*">' +
                '@' + name +
                '</span>';
     }
