@@ -21,6 +21,7 @@
     "jest": "^24.9.0"
   },
   "dependencies": {
+    "@zulip/shared": "^0.0.3",
     "katex": "^0.7.1",
     "lodash.contains": "^2.4.3",
     "lodash.find": "^4.6.0",
