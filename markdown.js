@@ -13,7 +13,7 @@ var find = require('lodash.find');
 var contains = require('lodash.contains');
 const marked = require('./marked');
 const hash_util = require('./hash_util');
-const fenced_code = require('./fenced_code');
+const fenced_code = require('@zulip/shared/js/fenced_code.js');
 const emoji = require('./emoji');
 var emoji_codes = require('./emoji_codes');
 const katex = require('katex');
@@ -316,7 +316,6 @@ exports.initialize = function (people, stream_data, realm, realm_filters, realm_
     fenced_code.set_stash_func(function (html) {
         return marked.stashHtml(html, true);
     });
-    fenced_code.set_escape_func(escape);
 
     marked.setOptions({
         gfm: true,
