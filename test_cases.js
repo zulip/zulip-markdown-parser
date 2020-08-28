@@ -15,13 +15,13 @@ exports.testCases = [
   {
     input: "\n```\nfenced code\n```\n\nand then after\n",
     expected:
-      '<div class="codehilite"><pre><span></span>fenced code\n</pre></div>\n\n\n<p>and then after</p>'
+      '<div class="codehilite"><pre><span></span><code>fenced code\n</code></pre></div>\n\n\n<p>and then after</p>'
   },
   {
     input:
       "\n```\n    fenced code trailing whitespace            \n```\n\nand then after\n",
     expected:
-      '<div class="codehilite"><pre><span></span>    fenced code trailing whitespace\n</pre></div>\n\n\n<p>and then after</p>'
+      '<div class="codehilite"><pre><span></span><code>    fenced code trailing whitespace\n</code></pre></div>\n\n\n<p>and then after</p>'
   },
   {
     input: "* a\n* list \n* here",
@@ -30,12 +30,12 @@ exports.testCases = [
   {
     input: "\n```c#\nfenced code special\n```\n\nand then after\n",
     expected:
-      '<div class="codehilite"><pre><span></span>fenced code special\n</pre></div>\n\n\n<p>and then after</p>'
+      '<div class="codehilite"><pre><span></span><code>fenced code special\n</code></pre></div>\n\n\n<p>and then after</p>'
   },
   {
     input: "\n```vb.net\nfenced code dot\n```\n\nand then after\n",
     expected:
-      '<div class="codehilite"><pre><span></span>fenced code dot\n</pre></div>\n\n\n<p>and then after</p>'
+      '<div class="codehilite"><pre><span></span><code>fenced code dot\n</code></pre></div>\n\n\n<p>and then after</p>'
   },
   {
     input: "Some text first\n* a\n* list \n* here\n\nand then after",
@@ -130,8 +130,8 @@ exports.testCases = [
     {
       "name": "codeblock_hilite",
       "input": "Hamlet said:\n~~~~.python \ndef speak(self):\n    x = 1\n~~~~",
-      "expected_output": `<p>Hamlet said:</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"k\">def</span> <span class=\"nf\">speak</span><span class=\"p\">(</span><span class=\"bp\">self</span><span class=\"p\">):</span>\n    <span class=\"n\">x</span> <span class=\"o\">=</span> <span class=\"mi\">1</span>\n</pre></div>`,
-      "marked_expected_output": "<p>Hamlet said:</p>\n<div class=\"codehilite\"><pre><span></span>def speak(self):\n    x = 1\n</pre></div>"
+      "expected_output": `<p>Hamlet said:</p>\n<div class=\"codehilite\"><pre><span></span><code><span class=\"k\">def</span> <span class=\"nf\">speak</span><span class=\"p\">(</span><span class=\"bp\">self</span><span class=\"p\">):</span>\n    <span class=\"n\">x</span> <span class=\"o\">=</span> <span class=\"mi\">1</span>\n</code></pre></div>`,
+      "marked_expected_output": "<p>Hamlet said:</p>\n<div class=\"codehilite\"><pre><span></span><code>def speak(self):\n    x = 1\n</code></pre></div>"
     },
     {
       "name": "basic_paragraph",
@@ -142,25 +142,25 @@ exports.testCases = [
     {
       "name": "codeblock_multiline",
       "input": "Hamlet once said\n~~~~\ndef func():\n    x = 1\n\n    y = 2\n\n    z = 3\n~~~~\nAnd all was good.",
-      "expected_output": `<p>Hamlet once said</p>\n<div class=\"codehilite\"><pre><span></span>def func():\n    x = 1\n\n    y = 2\n\n    z = 3\n</pre></div>\n\n\n<p>And all was good.</p>`,
+      "expected_output": `<p>Hamlet once said</p>\n<div class=\"codehilite\"><pre><span></span><code>def func():\n    x = 1\n\n    y = 2\n\n    z = 3\n</code></pre></div>\n\n\n<p>And all was good.</p>`,
       "bugdown_matches_marked": true
     },
     {
       "name": "codeblock_trailing_whitespace",
       "input": "Hamlet once said\n~~~~\ndef func():\n    x = 1\n\n    y = 2\t\t\n\n    z = 3       \n~~~~\nAnd all was good.",
-      "expected_output": `<p>Hamlet once said</p>\n<div class=\"codehilite\"><pre><span></span>def func():\n    x = 1\n\n    y = 2\n\n    z = 3\n</pre></div>\n\n\n<p>And all was good.</p>`,
+      "expected_output": `<p>Hamlet once said</p>\n<div class=\"codehilite\"><pre><span></span><code>def func():\n    x = 1\n\n    y = 2\n\n    z = 3\n</code></pre></div>\n\n\n<p>And all was good.</p>`,
       "bugdown_matches_marked": true
     },
     {
       "name": "codeblock_backticks",
       "input": "\n```\nfenced code\n```\n\n```inline code```\n",
-      "expected_output": `<div class=\"codehilite\"><pre><span></span>fenced code\n</pre></div>\n\n\n<p><code>inline code</code></p>`,
+      "expected_output": `<div class=\"codehilite\"><pre><span></span><code>fenced code\n</code></pre></div>\n\n\n<p><code>inline code</code></p>`,
       "bugdown_matches_marked": true
     },
     {
       "name": "hanging_multi_codeblock",
       "input": "Hamlet said:\n~~~~\ndef speak(self):\n    x = 1\n# Comment to make this code block longer to test Trac #1162\n~~~~\n\nThen he mentioned ````y = 4 + x**2```` and\n~~~~\ndef foobar(self):\n    return self.baz()",
-      "expected_output": `<p>Hamlet said:</p>\n<div class=\"codehilite\"><pre><span></span>def speak(self):\n    x = 1\n# Comment to make this code block longer to test Trac #1162\n</pre></div>\n\n\n<p>Then he mentioned <code>y = 4 + x**2</code> and</p>\n<div class=\"codehilite\"><pre><span></span>def foobar(self):\n    return self.baz()\n</pre></div>`,
+      "expected_output": `<p>Hamlet said:</p>\n<div class=\"codehilite\"><pre><span></span><code>def speak(self):\n    x = 1\n# Comment to make this code block longer to test Trac #1162\n</code></pre></div>\n\n\n<p>Then he mentioned <code>y = 4 + x**2</code> and</p>\n<div class=\"codehilite\"><pre><span></span><code>def foobar(self):\n    return self.baz()\n</code></pre></div>`,
       "bugdown_matches_marked": true
     },
     {
@@ -178,7 +178,7 @@ exports.testCases = [
     {
       "name": "complexly_nested_quote",
       "input": "I heard about this second hand...\n~~~ quote\n\nHe said:\n~~~ quote\nThe customer is complaining.\n\nThey looked at this code:\n``` \ndef hello(): print 'hello\n```\nThey would prefer:\n~~~\ndef hello()\n  puts 'hello'\nend\n~~~\n\nPlease advise.\n~~~\nShe said:\n~~~ quote\nJust send them this:\n```\necho \"hello\n\"\n```\n~~~",
-      "expected_output": `<p>I heard about this second hand...</p>\n<blockquote>\n<p>He said:</p>\n<blockquote>\n<p>The customer is complaining.</p>\n<p>They looked at this code:</p>\n<div class=\"codehilite\"><pre><span></span>def hello(): print &#39;hello\n</pre></div>\n\n\n<p>They would prefer:</p>\n</blockquote>\n<p>def hello()<br>\n  puts 'hello'<br>\nend</p>\n</blockquote>\n<p>Please advise.</p>\n<div class=\"codehilite\"><pre><span></span>She said:\n~~~ quote\nJust send them this:\n\`\`\`\necho &quot;hello\n&quot;\n\`\`\`\n</pre></div>`,
+      "expected_output": `<p>I heard about this second hand...</p>\n<blockquote>\n<p>He said:</p>\n<blockquote>\n<p>The customer is complaining.</p>\n<p>They looked at this code:</p>\n<div class=\"codehilite\"><pre><span></span><code>def hello(): print &#39;hello\n</code></pre></div>\n\n\n<p>They would prefer:</p>\n</blockquote>\n<p>def hello()<br>\n  puts 'hello'<br>\nend</p>\n</blockquote>\n<p>Please advise.</p>\n<div class=\"codehilite\"><pre><span></span><code>She said:\n~~~ quote\nJust send them this:\n\`\`\`\necho &quot;hello\n&quot;\n\`\`\`\n</code></pre></div>`,
       "bugdown_matches_marked": false
     },
     {
@@ -196,13 +196,13 @@ exports.testCases = [
     {
       "name": "dangerous_block",
       "input": "``` one ```\n\n``` two ```\n\n~~~~\nx = 1",
-      "expected_output": `<p><code>one</code></p>\n<p><code>two</code></p>\n<div class=\"codehilite\"><pre><span></span>x = 1\n</pre></div>`,
+      "expected_output": `<p><code>one</code></p>\n<p><code>two</code></p>\n<div class=\"codehilite\"><pre><span></span><code>x = 1\n</code></pre></div>`,
       "bugdown_matches_marked": true
     },
     {
       "name": "four_space_code_block",
       "input": "    def foo(): pass",
-      "expected_output": `<div class=\"codehilite\"><pre><span></span>def foo(): pass\n</pre></div>`,
+      "expected_output": `<div class=\"codehilite\"><pre><span></span><code>def foo(): pass\n</code></pre></div>`,
       "marked_expected_output": "<div class=\"codehilite\"><pre>def foo(): pass\n</pre></div>"
     },
     {
@@ -251,7 +251,7 @@ exports.testCases = [
     {
       "name": "ulist_codeblock",
       "input": "~~~\nint x = 3\n* 4;\n~~~",
-      "expected_output": `<div class=\"codehilite\"><pre><span></span>int x = 3\n* 4;\n</pre></div>`,
+      "expected_output": `<div class=\"codehilite\"><pre><span></span><code>int x = 3\n* 4;\n</code></pre></div>`,
       "bugdown_matches_marked": true
     },
     {
@@ -515,7 +515,7 @@ exports.testCases = [
     {
       "name": "safe_html_in_code",
       "input": "~~~\n<h1>stay normal</h1>",
-      "expected_output": `<div class=\"codehilite\"><pre><span></span>&lt;h1&gt;stay normal&lt;/h1&gt;\n</pre></div>`,
+      "expected_output": `<div class=\"codehilite\"><pre><span></span><code>&lt;h1&gt;stay normal&lt;/h1&gt;\n</code></pre></div>`,
       "bugdown_matches_marked": true
     },
     {
